@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Banco de dados</title>
+<title>Lista de Clientes</title>
 </head>
 <body>
     
@@ -52,7 +52,7 @@
 	<br>
 	<p>
 	<button><a href="filtroGenero" class="bt"> Filtrar por Gênero</a></button>
-	<button><a href="estatisticaGenero" class="bt"> Estatísticas</a></button>
+	<button><a href="estatisticas" class="bt"> Estatísticas</a></button>
 	
 	
 	</div>
@@ -60,6 +60,15 @@
 </body>
 
 <style>
+body{
+    
+    font-family: Arial, Helvetica, sans-serif;
+}
+table{
+background-color:#D3D3D3;
+
+}
+
 .corpo{
 width:43%;
 margin:auto;
@@ -69,6 +78,10 @@ font-weight: bold;
 
 h1{
 text-align: center;
+}
+
+tr{
+height: 10px;
 }
 
 </style>

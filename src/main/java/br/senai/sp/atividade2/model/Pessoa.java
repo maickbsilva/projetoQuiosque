@@ -19,6 +19,7 @@ public class Pessoa {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Calendar nascimento;
 	private String prodInteresse;
+	private Calendar dataCadastro;
 	
 	public Long getId() {
 		return id;
@@ -70,6 +71,13 @@ public class Pessoa {
 	}
 	public void setGenero(String genero) {
 		this.genero = genero;
+	}
+	
+	public Calendar getDataCadastro() {
+		return dataCadastro;
+	}
+	public void setDataCadastro(Calendar dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
 	public int getIdade() {
 		int dia = nascimento.get(Calendar.DAY_OF_MONTH);

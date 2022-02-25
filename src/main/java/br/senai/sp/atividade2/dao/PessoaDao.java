@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -20,8 +21,8 @@ public class PessoaDao {
 	
 	public void inserir(Pessoa pessoa) {
 		
-		String sql = "insert into tb_cadastro" + "(nome, endereco, email, genero, celular, nascimento, prodInteresse)" + 
-				"value(?,?,?,?,?,?,?)";
+		String sql = "insert into tb_cadastro" + "(nome, endereco, email, genero, celular, nascimento, prodInteresse, dataCadastro)" + 
+				"value(?,?,?,?,?,?,?,?)";
 		
 		PreparedStatement stmt;
 		
@@ -34,6 +35,7 @@ public class PessoaDao {
 			stmt.setString(5, pessoa.getCelular());
 			stmt.setDate(6, new Date(pessoa.getNascimento().getTimeInMillis()));
 			stmt.setString(7, pessoa.getProdInteresse());
+			stmt.setTimestamp(8, new Timestamp(pessoa.getDataCadastro().getTimeInMillis()));
 			stmt.execute();
 			stmt.close();
 			conexao.close();
@@ -71,12 +73,18 @@ public class PessoaDao {
 				p.setNascimento(nascimento);
 				
 				p.setProdInteresse(rs.getString("prodInteresse"));
+				
+				Calendar dataCadastro = Calendar.getInstance();
+				Timestamp cadastroDb = rs.getTimestamp("dataCadastro");
+				dataCadastro.setTimeInMillis(cadastroDb.getTime());
+				p.setDataCadastro(dataCadastro);
+				
 			
 				lista.add(p);
 			}
-			rs.close();
-			stmt.close();
-			conexao.close();
+			//rs.close();
+			//stmt.close();
+			//conexao.close();
 			return lista;
 			
 		} catch (Exception e) {
@@ -161,6 +169,12 @@ public class PessoaDao {
 				// setar o nascimento no jogador
 				p.setNascimento(nascimento);
 				
+				Calendar dataCadastro = Calendar.getInstance();
+				Timestamp cadastroDb = rs.getTimestamp("dataCadastro");
+				dataCadastro.setTimeInMillis(cadastroDb.getTime());
+				p.setDataCadastro(dataCadastro);
+				
+				
 			}
 			rs.close();
 			stmt.close();
@@ -202,6 +216,11 @@ public class PessoaDao {
 				p.setNascimento(nascimento);
 				
 				p.setProdInteresse(rs.getString("prodInteresse"));
+				
+				Calendar dataCadastro = Calendar.getInstance();
+				Timestamp cadastroDb = rs.getTimestamp("dataCadastro");
+				dataCadastro.setTimeInMillis(cadastroDb.getTime());
+				p.setDataCadastro(dataCadastro);
 			
 				lista.add(p);
 			}
@@ -241,48 +260,8 @@ public class PessoaDao {
 			
 	}
 	
-	public List<Pessoa> idades() {
-		
-		String sql = "select nascimento from tb_cadastro";
-		PreparedStatement stmt;
-		
-		List<Pessoa> lista = new ArrayList<Pessoa>();
-
-		try {
-			stmt = conexao.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery();
-
-			
-			while(rs.next()) {
-				Pessoa p = new Pessoa();
-
-				//criar um calendar com a data atual
-				Calendar nascimento = Calendar.getInstance();
-				//extrair o java.sql.Date do banco de dados
-				Date nascDb = rs.getDate("nascimento");
-				//passar o long do java.sql.Date para o Calendar
-				nascimento.setTimeInMillis(nascDb.getTime());
-				// setar o nascimento no jogador
-				p.setNascimento(nascimento);
-							
-				lista.add(p);
-			}
-			
-			rs.close();
-			stmt.close();
-			conexao.close();
-			return lista;
-			
-			
-		} catch (SQLException e) {
-			throw new RuntimeException();
-		}
-
-
-		
-	}
-	
 }
+	
 
 
 
